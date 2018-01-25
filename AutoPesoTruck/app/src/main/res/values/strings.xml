@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">App</string>
+    <string name="BtnIngresar">iniciar sesión</string>
+    <string name="txtUsuario">Usuario</string>
+    <string name="txtclave">Contraseña</string>
+    <string name="txtNombre">Nombre</string>
+    <string name="txtApellido">Apellido</string>
+    <string name="buscar">Buscar</string>
+    <string name="guardar">Guardar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="msUsernameRequerido">El nombre de usuario es requerido!</string>
+    <string name="msPasswordRequerido">La contraseña el requerida!</string>
+    <string name="msUsarioInvalido">Usuario o contraseña   incorrecta</string>
+    <string name="cerraraSesion">Cerrar sesión</string>
+    <string name="msCerrarApp">Estas seguro de cerrar la aplicación?</string>
+    <string name="si">Si</string>
+    <string name="no">NO</string>
+</resources>

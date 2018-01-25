@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">App</string>
+    <string name="BtnIngresar">Login</string>
+    <string name="txtUsuario">Username</string>
+    <string name="txtclave">Password</string>
+    <string name="txtNombre">First name</string>
+    <string name="txtApellido">Last name</string>
+    <string name="buscar">Search</string>
+    <string name="guardar">Save</string>
+    <string name="eliminar">Remove</string>
+    <string name="actualizar">Update</string>
+    <string name="msUsernameRequerido">The username is required!</string>
+    <string name="msPasswordRequerido">The password is required!</string>
+    <string name="msUsarioInvalido">Incorrect user or password</string>
+    <string name="cerraraSesion">Logout</string>
+    <string name="msCerrarApp">Are you sure to close the application?</string>
+    <string name="si">Yes</string>
+    <string name="no">Do not</string>
+</resources>

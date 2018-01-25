@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    tools:context="co.com.cardinalscale.autopesotruck.MainActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:id="@+id/relativeLayoutSuperior">
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/logo"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/txtUserNmae"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:background="#11000000"
+        android:drawableLeft="@drawable/ic_person"
+        android:ems="10"
+        android:hint="@string/txtUsuario"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/background_light"
+        android:textSize="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
+    
+ <RelativeLayout
+     android:id="@+id/relativeLayoutInferior"
+     android:layout_width="match_parent"
+     android:layout_height="350dp"
+     android:layout_alignParentBottom="true"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentStart="true"
+     android:layout_below="@+id/relativeLayoutSuperior">
+
+     <EditText
+         android:id="@+id/txtPassword"
+         android:layout_width="300dp"
+         android:layout_height="40dp"
+         android:background="#11000000"
+         android:drawableLeft="@drawable/ic_lock"
+         android:ems="10"
+         android:hint="@string/txtclave"
+         android:inputType="textPassword"
+         android:textColor="@android:color/background_light"
+         android:textSize="16dp"
+         android:layout_marginTop="14dp"
+         android:layout_below="@+id/relativeLayout"
+         android:layout_centerHorizontal="true" />
+
+     <android.support.v7.widget.CardView
+         android:layout_width="300dp"
+         android:layout_height="50dp"
+         app:cardBackgroundColor="@color/colorAccent"
+         app:cardCornerRadius="25dp"
+         app:cardElevation="10dp"
+         android:onClick="Login"
+         android:id="@+id/cardView"
+         android:layout_marginTop="72dp"
+         android:layout_below="@+id/txtPassword"
+         android:layout_alignLeft="@+id/txtPassword"
+         android:layout_alignStart="@+id/txtPassword"
+         android:stateListAnimator="@anim/lift_on_touch">
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+             <TextView
+                 android:id="@+id/textViewLogin"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_centerVertical="true"
+                 android:text="@string/BtnIngresar"
+                 android:textColor="#fff"
+                 android:textSize="18sp" />
+         </RelativeLayout>
+     </android.support.v7.widget.CardView>
+
+ </RelativeLayout>
+
+
+</RelativeLayout>
