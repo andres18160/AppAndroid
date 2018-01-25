@@ -77,7 +77,23 @@ public class principalActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem opcion_menu){
         int id=opcion_menu.getItemId();
         if(id==R.id.CerrarSession){
-            MensajeToast("Se preciono cerrar sesión!");
+            final AlertDialog.Builder builder=new AlertDialog.Builder(principalActivity.this);
+            builder.setMessage(R.string.msCerrarApp);
+            builder.setCancelable(true);
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog alertDialog=builder.create();
+            alertDialog.show();
             return true;
 
         }

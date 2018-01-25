@@ -7,6 +7,7 @@ public class EnUsuario {
     private String Clave;
     private String Nombres;
     private String Apellidos;
+    private String Estado;
 
 
     public int get_id() {
@@ -46,5 +47,13 @@ public class EnUsuario {
 
     public void setApellidos(String apellidos) {
         Apellidos = apellidos;
+    }
+
+    public String getEstado() {
+        return Estado;
+    }
+
+    public void setEstado(String estado) {
+        Estado = estado;
     }
 }

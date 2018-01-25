@@ -2,6 +2,9 @@ package co.com.cardinalscale.autopesotruck;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -15,17 +18,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import co.com.cardinalscale.autopesotruck.Datos.TablaUsuarios;
 import co.com.cardinalscale.autopesotruck.Entidades.EnUsuario;
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 
 public class MainActivity extends AppCompatActivity {
     private EnUsuario enUser=new EnUsuario();
-private TablaUsuarios cdUsuario=new TablaUsuarios(this);
+    private TablaUsuarios cdUsuario=new TablaUsuarios(this);
     TextView txtUserName,txtPassword;
     RelativeLayout RelativeLayoutSuperior,RelativeLayoutInferior;
     Animation uptodown,downtoup;
-String username,clave;
+    String username,clave;
+    CircularProgressButton btnLoginProgressBar;
 
 
     @Override
@@ -41,14 +46,21 @@ String username,clave;
         RelativeLayoutInferior.setAnimation(downtoup);
         txtUserName=(TextView)findViewById(R.id.txtUserNmae);
         txtPassword=(TextView)findViewById(R.id.txtPassword);
+        btnLoginProgressBar=(CircularProgressButton)findViewById(R.id.btnLogin);
 
 
+        enUser=cdUsuario.BuscarUsuarioActivo();
+        if(enUser!=null){
+            Intent i = new Intent(getApplicationContext(),principalActivity.class);
+            i.putExtra("UserName",enUser.getNombreDeUsuario());
+            startActivity(i);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+        }
 
     }
 
 
     public void Login(View view){
-
 
         String ms="";
         if(txtUserName.getText().toString().trim().length()==0){
@@ -67,11 +79,32 @@ String username,clave;
             MensajeToast(ms);
             return;
         }
+        AsyncTask<String,String,String>demoCargando=new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... strings) {
+                try{
+                    Thread.sleep(3000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                return "ok";
 
-        Intent i = new Intent(this,principalActivity.class);
-        i.putExtra("UserName",enUser.getNombreDeUsuario());
-        startActivity(i);
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                if(s.equals("ok")){
+                    btnLoginProgressBar.doneLoadingAnimation(Color.parseColor("#333639"), BitmapFactory.decodeResource(getResources(),R.drawable.ic_done_white_48dp));
+                    Intent i = new Intent(getApplicationContext(),principalActivity.class);
+                    i.putExtra("UserName",enUser.getNombreDeUsuario());
+                    startActivity(i);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                }
+            }
+        };
+        btnLoginProgressBar.startAnimation();
+        demoCargando.execute();
+
 
 
 
@@ -90,6 +123,8 @@ String username,clave;
                 return false;
             }
         }else{
+            enUser.setEstado("Activo");
+            cdUsuario.ActualizarEstadoUsuario(enUser);
             return true;
         }
 

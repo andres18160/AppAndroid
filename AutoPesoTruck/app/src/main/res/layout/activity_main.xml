@@ -58,9 +58,9 @@
          android:textColor="@android:color/background_light"
          android:textSize="16dp"
          android:layout_marginTop="14dp"
-         android:layout_below="@+id/relativeLayout"
-         android:layout_centerHorizontal="true" />
-
+         android:layout_centerHorizontal="true"
+         tools:ignore="UnknownId" />
+<!--
      <android.support.v7.widget.CardView
          android:layout_width="300dp"
          android:layout_height="50dp"
@@ -90,6 +90,19 @@
                  android:textSize="18sp" />
          </RelativeLayout>
      </android.support.v7.widget.CardView>
+-->
+     <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/btnLogin"
+         android:text="@string/BtnIngresar"
+         android:textColor="@android:color/white"
+         android:layout_centerInParent="true"
+         android:background="@drawable/shape_default"
+         app:spinning_bar_color="#fff"
+         app:spinning_bar_padding="6dp"
+         app:spinning_bar_width="4dp"
+         android:onClick="Login"/>
 
  </RelativeLayout>
 
