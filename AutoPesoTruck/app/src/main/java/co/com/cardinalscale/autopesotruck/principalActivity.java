@@ -18,13 +18,17 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import co.com.cardinalscale.autopesotruck.Datos.TablaUsuarios;
+import co.com.cardinalscale.autopesotruck.Entidades.EnUsuario;
+
 
 public class principalActivity extends AppCompatActivity {
 
     //se declara el tool_bar
     private Toolbar toolbar;
     GridLayout mainGrid;
-
+    private EnUsuario usuario=new EnUsuario();
+    private TablaUsuarios cdUsuariuo=new TablaUsuarios(this);
     TextView textViewUser;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class principalActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle datos=getIntent().getExtras();
-        String userName=datos.getString("UserName");
+        usuario.setNombreDeUsuario(datos.getString("UserName"));
 
 
 
@@ -89,6 +93,8 @@ public class principalActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    usuario.setEstado("");
+                    cdUsuariuo.ActualizarEstadoUsuario(usuario);
                     finish();
                 }
             });

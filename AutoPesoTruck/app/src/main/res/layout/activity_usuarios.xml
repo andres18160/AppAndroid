@@ -1,114 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="co.com.cardinalscale.autopesotruck.UsuariosActivity">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/txtId"
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/txtUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/txtUsuario" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/txtNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/txtNombre" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_apellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/txtApellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/txtApellido" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_contraseña"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/txtClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/txtclave"
+                    android:inputType="numberPassword"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Id"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/txtUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtId"
-        android:layout_alignStart="@+id/txtId"
-        android:layout_below="@+id/txtId"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:hint="@string/txtUsuario"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/txtNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtUsuario"
-        android:layout_alignStart="@+id/txtUsuario"
-        android:layout_below="@+id/txtUsuario"
-        android:layout_marginTop="19dp"
-        android:ems="10"
-        android:hint="@string/txtNombre"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/txtApellido"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtNombre"
-        android:layout_alignStart="@+id/txtNombre"
-        android:layout_below="@+id/txtNombre"
-        android:layout_marginTop="13dp"
-        android:ems="10"
-        android:hint="@string/txtApellido"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/txtClave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtApellido"
-        android:layout_alignStart="@+id/txtApellido"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:hint="@string/txtclave"
-        android:inputType="textPersonName" />
+        android:text="@string/guardar" />
 
     <Button
         android:id="@+id/btnBuscar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtClave"
-        android:layout_alignStart="@+id/txtClave"
-        android:layout_below="@+id/txtClave"
-        android:layout_marginTop="26dp"
         android:text="@string/buscar" />
 
     <Button
         android:id="@+id/btnActualizar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnBuscar"
-        android:layout_alignBottom="@+id/btnBuscar"
-        android:layout_toEndOf="@+id/btnBuscar"
-        android:layout_toRightOf="@+id/btnBuscar"
-        android:text="Button"
-        tools:text="@string/actualizar" />
+        android:text="@string/actualizar" />
 
     <Button
         android:id="@+id/btnEliminar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnActualizar"
-        android:layout_toEndOf="@+id/btnActualizar"
-        android:layout_toRightOf="@+id/btnActualizar"
         android:text="@string/eliminar" />
 
-    <Button
-        android:id="@+id/btnGuardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnBuscar"
-        android:layout_alignStart="@+id/btnBuscar"
-        android:layout_below="@+id/btnBuscar"
-        android:text="@string/guardar" />
-</RelativeLayout>
+</LinearLayout>
 
-</android.support.constraint.ConstraintLayout>

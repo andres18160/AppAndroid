@@ -31,8 +31,8 @@ public final class TablaUsuarios {
 
     public static final String SQL_CREATE_USUARIOS =
             "CREATE TABLE " + TablaUsuarios.TABLE_NAME + " (" +
-                    TablaUsuarios._ID + " INTEGER PRIMARY KEY," +
-                    TablaUsuarios.USUARIO + TEXT_TYPE + COMMA_SEP +
+                    TablaUsuarios._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    TablaUsuarios.USUARIO + TEXT_TYPE+" UNIQUE NOT NULL " + COMMA_SEP +
                     TablaUsuarios.NOMBRE + TEXT_TYPE +COMMA_SEP +
                     TablaUsuarios.APELLIDO + TEXT_TYPE +COMMA_SEP +
                     TablaUsuarios.CLAVE + TEXT_TYPE +COMMA_SEP +
@@ -47,13 +47,16 @@ public final class TablaUsuarios {
         try{
             SQLiteDatabase db = helper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(_ID, String.valueOf(usuario.get_id()));
             values.put(USUARIO, usuario.getNombreDeUsuario());
             values.put(APELLIDO, usuario.getApellidos());
             values.put(NOMBRE, usuario.getNombres());
             values.put(CLAVE, usuario.getClave());
             //inserta los datos y devuelve la clave primaria del registro insertado
             long newRowId = db.insert(TABLE_NAME, null, values);
+            db.close();
+            if(newRowId==-1){
+                return false;
+            }
             return true;
         }catch (Exception e){
             return false;
@@ -81,6 +84,7 @@ public final class TablaUsuarios {
                         values,
                         selection,
                         selectionArgs);
+                db.close();
                 return true;
             }catch (Exception e){
                 return false;
@@ -96,14 +100,15 @@ public final class TablaUsuarios {
             values.put(ESTADO, usuario.getEstado());
 
             // Which row to update, based on the title
-            String selection = _ID + " LIKE ?";
-            String[] selectionArgs = { String.valueOf(usuario.get_id()) };
+            String selection = USUARIO + " LIKE ?";
+            String[] selectionArgs = { String.valueOf(usuario.getNombreDeUsuario()) };
 
             int count = db.update(
                     TABLE_NAME,
                     values,
                     selection,
                     selectionArgs);
+            db.close();
             return true;
         }catch (Exception e){
             return false;
@@ -154,7 +159,7 @@ public final class TablaUsuarios {
                 null,                                     // no filtrar por grupos de filas
                 null                                 // El orden de clasificación (sortOrder)
         );
-
+        db.close();
         c.moveToFirst();//mueve el cursor al primer registro del resultSet
         usuario.set_id(Integer.parseInt(c.getString(0)));
         usuario.setApellidos(c.getString(1));
@@ -175,7 +180,7 @@ public final class TablaUsuarios {
         return null;
     }
 }
-    public EnUsuario BuscarUsuario(String Id){
+    public EnUsuario BuscarUsuarioId(String Id){
         EnUsuario usuario=new EnUsuario();
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -223,6 +228,56 @@ public final class TablaUsuarios {
             return null;
         }
     }
+
+    public EnUsuario BuscarUsuario(String userName){
+        EnUsuario usuario=new EnUsuario();
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+// Definir una proyección que especifique qué columnas de la base de datos
+// lo usarás después de esta consulta.
+        String[] projection = {
+                _ID,
+                APELLIDO,
+                NOMBRE,
+                USUARIO,
+                CLAVE,
+                ESTADO
+
+        };
+
+// Filtrar resultados DONDE "título" = "Mi título"
+        String selection = USUARIO + " = ?";
+        String[] selectionArgs = { userName };
+
+// Cómo desea que se clasifiquen los resultados en el Cursor resultante
+        // String sortOrder =TablaUsuarios._ID + " DESC";
+        try {
+            Cursor c = db.query(
+                    TABLE_NAME,
+                    projection,                               // Las columnas para regresar
+                    selection,                                // Las columnas para la cláusula WHERE
+                    selectionArgs,                            // Los valores para la cláusula WHERE
+                    null,                                     // no agrupe las filas
+                    null,                                     // no filtrar por grupos de filas
+                    null                                 // El orden de clasificación (sortOrder)
+            );
+
+            c.moveToFirst();//mueve el cursor al primer registro del resultSet
+            usuario.set_id(Integer.parseInt(c.getString(0)));
+            usuario.setApellidos(c.getString(1));
+            usuario.setNombres(c.getString(2));
+            usuario.setNombreDeUsuario(c.getString(3));
+            usuario.setClave(c.getString(4));
+            usuario.setEstado(c.getString(5));
+
+            return usuario;
+
+
+        }catch(Exception e){
+            return null;
+        }
+    }
+
     public EnUsuario BuscarUsuarioActivo(){
         EnUsuario usuario=new EnUsuario();
         SQLiteDatabase db = helper.getReadableDatabase();

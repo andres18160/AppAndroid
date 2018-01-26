@@ -1,5 +1,6 @@
 package co.com.cardinalscale.autopesotruck;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -7,11 +8,14 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
@@ -31,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
     Animation uptodown,downtoup;
     String username,clave;
     CircularProgressButton btnLoginProgressBar;
-
+    private Vibrator vib;
+    Animation animShake;
+    private TextInputLayout input_Usuario,input_contrasena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayoutSuperior.setAnimation(uptodown);
         RelativeLayoutInferior.setAnimation(downtoup);
         txtUserName=(TextView)findViewById(R.id.txtUserNmae);
-        txtPassword=(TextView)findViewById(R.id.txtPassword);
+        txtPassword=(TextView)findViewById(R.id.txtClave);
         btnLoginProgressBar=(CircularProgressButton)findViewById(R.id.btnLogin);
-
+        input_Usuario=(TextInputLayout)findViewById(R.id.input_Usuario);
+        input_contrasena=(TextInputLayout)findViewById(R.id.input_contrasena);
+        animShake= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
+        vib=(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
         enUser=cdUsuario.BuscarUsuarioActivo();
         if(enUser!=null){
@@ -55,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("UserName",enUser.getNombreDeUsuario());
             startActivity(i);
             overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            finish();
         }
 
     }
@@ -63,16 +73,29 @@ public class MainActivity extends AppCompatActivity {
     public void Login(View view){
 
         String ms="";
-        if(txtUserName.getText().toString().trim().length()==0){
-            ms= (String) getResources().getText(R.string.msUsernameRequerido);
-            MensajeToast(ms);
+        if(txtUserName.getText().toString().trim().isEmpty()){
+            input_Usuario.setErrorEnabled(true);
+            input_Usuario.setError(getResources().getText(R.string.err_msg_usuario));
+            txtUserName.setError(getResources().getText(R.string.err_msg_requerido));
+            input_Usuario.setAnimation(animShake);
+            input_Usuario.startAnimation(animShake);
+            requestFocus(txtUserName);
+            vib.vibrate(120);
             return;
         }
-        if(txtPassword.getText().toString().trim().length()==0){
-            ms= (String) getResources().getText(R.string.msPasswordRequerido);
-            MensajeToast(ms);
+        if(txtPassword.getText().toString().trim().isEmpty()){
+            input_contrasena.setErrorEnabled(true);
+            input_contrasena.setError(getResources().getText(R.string.err_msg_contrasena));
+            txtPassword.setError(getResources().getText(R.string.err_msg_requerido));
+            input_contrasena.setAnimation(animShake);
+            input_contrasena.startAnimation(animShake);
+            requestFocus(txtPassword);
+            vib.vibrate(120);
             return;
         }
+
+        input_Usuario.setErrorEnabled(false);
+        input_contrasena.setErrorEnabled(false);
 
         if(!ValidarUsuario()){
             ms= (String) getResources().getText(R.string.msUsarioInvalido);
@@ -99,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     i.putExtra("UserName",enUser.getNombreDeUsuario());
                     startActivity(i);
                     overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    finish();
                 }
             }
         };
@@ -156,6 +180,12 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
+    }
+
+    private void requestFocus(View view){
+        if(view.requestFocus()){
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 
 }
