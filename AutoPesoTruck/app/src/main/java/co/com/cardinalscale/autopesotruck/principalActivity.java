@@ -65,6 +65,11 @@ public class principalActivity extends AppCompatActivity {
                        startActivity(inten);
                    }
 
+                   if(finalI==1){
+                       Intent inten=new Intent(getApplicationContext(),OperacionActivity.class);
+                       startActivity(inten);
+                   }
+
 
                     Toast.makeText(principalActivity.this,"Click="+ finalI,Toast.LENGTH_SHORT).show();
                 }
