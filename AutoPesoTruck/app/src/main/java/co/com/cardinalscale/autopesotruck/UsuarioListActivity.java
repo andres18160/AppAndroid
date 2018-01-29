@@ -21,6 +21,7 @@ public class UsuarioListActivity extends AppCompatActivity {
     ListView listViewUsers;
     ArrayList<EnUsuario> listaUsuarios;
     private EnUsuario usuario;
+    private UsuariosAdapter miadaptador;
     private TablaUsuarios cdUsuario=new TablaUsuarios(this);
     private EditText txtBuscar;
     @Override
@@ -50,6 +51,7 @@ public class UsuarioListActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                miadaptador.getFilter(miadaptador).filter(txtBuscar.getText().toString());
             }
 
             @Override
@@ -74,7 +76,7 @@ public class UsuarioListActivity extends AppCompatActivity {
     }
     private void CargarListaUsuarios(){
         listaUsuarios=cdUsuario.GetListaUsuarios();
-        UsuariosAdapter miadaptador=new UsuariosAdapter(getApplicationContext(),listaUsuarios);
+         miadaptador=new UsuariosAdapter(getApplicationContext(),listaUsuarios);
         listViewUsers.setAdapter(miadaptador);
     }
 }

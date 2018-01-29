@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.com.cardinalscale.autopesotruck.Entidades.EnUsuario;
@@ -59,6 +61,46 @@ public class UsuariosAdapter extends BaseAdapter {
         descripcion.setText(ListaObjetos.get(position).getNombreDeUsuario());
         imagen.setImageResource(ListaObjetos.get(position).getImagen());
         return vista;
+
+    }
+
+    public Filter getFilter(final UsuariosAdapter adapter ) {
+
+
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                List<String> arrayListNames = (List<String>) results.values;
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults results = new FilterResults();
+                ArrayList<String> FilteredArrayNames = new ArrayList<String>();
+
+                // perform your search here using the searchConstraint String.
+
+                constraint = constraint.toString().toLowerCase();
+                for (int i = 0; i < ListaObjetos.size(); i++) {
+                    String dataNames = ListaObjetos.get(i).getNombres();
+                    if (dataNames.toLowerCase().startsWith(constraint.toString())) {
+                        FilteredArrayNames.add(dataNames);
+                    }
+                }
+
+                results.count = FilteredArrayNames.size();
+                results.values = FilteredArrayNames;
+                //Log.e("VALUES", results.values.toString());
+
+                return results;
+            }
+        };
+
+        return filter;
 
     }
 }
