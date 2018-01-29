@@ -15,10 +15,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import co.com.cardinalscale.autopesotruck.Adaptadores.UsuariosAdapter;
 import co.com.cardinalscale.autopesotruck.Datos.TablaUsuarios;
 import co.com.cardinalscale.autopesotruck.Datos.db_Helper;
 import co.com.cardinalscale.autopesotruck.Entidades.EnUsuario;
@@ -27,13 +33,16 @@ import static java.security.AccessController.getContext;
 
 public class UsuariosActivity extends AppCompatActivity {
 
-        Button btnGuardar,btnActualizar,btnEliminar,btnBuscar;
+        Button btnGuardar,btnActualizar,btnEliminar;
         EditText txtUsuario,txtNombre,txtApellido,txtCalve;
         private EnUsuario usuario;
         private TablaUsuarios cdUsuario=new TablaUsuarios(this);
         private Vibrator vib;
         Animation animShake;
         private TextInputLayout input_username,input_nombre,input_apellido,input_contraseña;
+        ImageView foto;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +50,14 @@ public class UsuariosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_usuarios);
 
         usuario=new EnUsuario();
-
         btnGuardar=(Button)findViewById(R.id.btnGuardar);
         btnActualizar=(Button)findViewById(R.id.btnActualizar);
         btnEliminar=(Button)findViewById(R.id.btnEliminar);
-        btnBuscar=(Button)findViewById(R.id.btnBuscar);
+
+        foto=(ImageView)findViewById(R.id.imgFoto);
 
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
-        btnBuscar.setEnabled(false);
 
         txtNombre=(EditText)findViewById(R.id.txtNombre);
         txtApellido=(EditText)findViewById(R.id.txtApellido);
@@ -65,6 +73,24 @@ public class UsuariosActivity extends AppCompatActivity {
         vib=(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
 
+        usuario=(EnUsuario)getIntent().getExtras().getSerializable("usuario");
+
+        if(usuario!=null){
+            txtUsuario.setKeyListener(null);
+            txtUsuario.setText(usuario.getNombreDeUsuario());
+            txtApellido.setText(usuario.getApellidos());
+            txtNombre.setText(usuario.getNombres());
+            txtCalve.setText(usuario.getClave());
+            foto.setImageResource(usuario.getImagen());
+            btnActualizar.setEnabled(true);
+            btnEliminar.setEnabled(true);
+            btnGuardar.setEnabled(false);
+            btnGuardar.setVisibility(View.GONE);//Apara ocultar el boton
+        }else{
+            btnGuardar.setVisibility(View.VISIBLE);//Apara MOSTRAR el boton
+        }
+
+
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,21 +102,6 @@ public class UsuariosActivity extends AppCompatActivity {
                             MensajeToast("Ocurrio un error insertando el registro");
                         }
                     }
-            }
-        });
-
-
-        txtUsuario.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                usuario=cdUsuario.BuscarUsuario((txtUsuario.getText().toString()));
-                if(usuario !=null){
-                    txtApellido.setText(usuario.getApellidos());
-                    txtNombre.setText(usuario.getNombres());
-                    txtCalve.setText(usuario.getClave());
-                    btnActualizar.setEnabled(true);
-                    btnEliminar.setEnabled(true);
-                }
             }
         });
 
@@ -123,24 +134,6 @@ public class UsuariosActivity extends AppCompatActivity {
                 }else{
                     MensajeToast("Debes ingresar un Id para realizar la consulta!");
                 }*/
-            }
-        });
-
-
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                usuario=cdUsuario.BuscarUsuario((txtUsuario.getText().toString()));
-                if(usuario !=null){
-                    txtApellido.setText(usuario.getApellidos());
-                    txtNombre.setText(usuario.getNombres());
-                    txtCalve.setText(usuario.getClave());
-                }else{
-                    MensajeToast("No se encontro el usuario");
-                    LimpiarControles();
-                }
-
-
             }
         });
     }
@@ -207,6 +200,10 @@ public class UsuariosActivity extends AppCompatActivity {
       }
 
     }
+
+
+
+
 
     private void LimpiarControles(){
         btnActualizar.setEnabled(false);

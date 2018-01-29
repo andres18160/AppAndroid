@@ -22,4 +22,14 @@
     <string name="err_msg_apellido">Ingrese un Apellido</string>
     <string name="err_msg_contrasena">Enter a Last Name</string>
     <string name="err_msg_requerido">Required field</string>
+    <string name="btnAdminUser">Users</string>
+    <string name="btnAdminUserText">User administration</string>
+    <string name="btnOperacion">Operation</string>
+    <string name="btnOperacionText">Perform Weighing</string>
+    <string name="btnConfiguracion">Configuration</string>
+    <string name="btnConfiguracionText">Communication with indicator</string>
+    <string name="btnInforme">Report</string>
+    <string name="btnInformeText">Operation records</string>
+    <string name="btnEnviarInfo">Send</string>
+    <string name="btnEnviarInfoText">Send information</string>
 </resources>

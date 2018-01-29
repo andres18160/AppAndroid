@@ -7,7 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
+import java.util.ArrayList;
+
 import co.com.cardinalscale.autopesotruck.Entidades.EnUsuario;
+import co.com.cardinalscale.autopesotruck.R;
 
 public final class TablaUsuarios {
 
@@ -43,9 +46,9 @@ public final class TablaUsuarios {
 
 
     public boolean GuardarUsuario(EnUsuario usuario){
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         try{
-            SQLiteDatabase db = helper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(USUARIO, usuario.getNombreDeUsuario());
             values.put(APELLIDO, usuario.getApellidos());
@@ -53,21 +56,21 @@ public final class TablaUsuarios {
             values.put(CLAVE, usuario.getClave());
             //inserta los datos y devuelve la clave primaria del registro insertado
             long newRowId = db.insert(TABLE_NAME, null, values);
-            db.close();
             if(newRowId==-1){
                 return false;
             }
             return true;
         }catch (Exception e){
             return false;
+        }finally {
+            db.close();
         }
 
     }
 
     public boolean ActualizarUsuario(EnUsuario usuario){
+        SQLiteDatabase db = helper.getReadableDatabase();
             try{
-                SQLiteDatabase db = helper.getReadableDatabase();
-
                 // New value for one column
                 ContentValues values = new ContentValues();
                 values.put(USUARIO, usuario.getNombreDeUsuario());
@@ -76,24 +79,25 @@ public final class TablaUsuarios {
                 values.put(CLAVE, usuario.getClave());
 
                 // Which row to update, based on the title
-                String selection = _ID + " LIKE ?";
-                String[] selectionArgs = { String.valueOf(usuario.get_id()) };
+                String selection = USUARIO + " LIKE ?";
+                String[] selectionArgs = { usuario.getNombreDeUsuario() };
 
                 int count = db.update(
                         TABLE_NAME,
                         values,
                         selection,
                         selectionArgs);
-                db.close();
                 return true;
             }catch (Exception e){
                 return false;
+            }finally {
+                db.close();
             }
     }
 
     public boolean ActualizarEstadoUsuario(EnUsuario usuario){
+        SQLiteDatabase db = helper.getReadableDatabase();
         try{
-            SQLiteDatabase db = helper.getReadableDatabase();
 
             // New value for one column
             ContentValues values = new ContentValues();
@@ -101,17 +105,18 @@ public final class TablaUsuarios {
 
             // Which row to update, based on the title
             String selection = USUARIO + " LIKE ?";
-            String[] selectionArgs = { String.valueOf(usuario.getNombreDeUsuario()) };
+            String[] selectionArgs = { usuario.getNombreDeUsuario() };
 
             int count = db.update(
                     TABLE_NAME,
                     values,
                     selection,
                     selectionArgs);
-            db.close();
             return true;
         }catch (Exception e){
             return false;
+        }finally {
+            db.close();
         }
     }
     public boolean EliminarUsuario(String Id){
@@ -126,6 +131,53 @@ public final class TablaUsuarios {
             return true;
         }catch (Exception e){
             return false;
+        }
+    }
+
+
+    public ArrayList<EnUsuario> GetListaUsuarios(){
+        EnUsuario usuario;
+        ArrayList< EnUsuario> listaUsuarios=new ArrayList<EnUsuario>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        // Definir una proyección que especifique qué columnas de la base de datos
+// lo usarás después de esta consulta.
+        String[] projection = {
+                _ID,
+                APELLIDO,
+                NOMBRE,
+                USUARIO,
+                CLAVE,
+                ESTADO
+
+        };
+// Cómo desea que se clasifiquen los resultados en el Cursor resultante
+        // String sortOrder =TablaUsuarios._ID + " DESC";
+        try {
+            Cursor c = db.query(
+                    TABLE_NAME,
+                    projection,                               // Las columnas para regresar
+                    null,                                // Las columnas para la cláusula WHERE
+                    null,                            // Los valores para la cláusula WHERE
+                    null,                                     // no agrupe las filas
+                    null,                                     // no filtrar por grupos de filas
+                    null                                 // El orden de clasificación (sortOrder)
+            );
+            for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
+                usuario=new EnUsuario();
+                usuario.set_id(Integer.parseInt(c.getString(0)));
+                usuario.setApellidos(c.getString(1));
+                usuario.setNombres(c.getString(2));
+                usuario.setNombreDeUsuario(c.getString(3));
+                usuario.setClave(c.getString(4));
+                usuario.setEstado(c.getString(5));
+                usuario.setImagen(R.drawable.logo);
+                listaUsuarios.add(usuario);
+            }
+            return listaUsuarios;
+        }catch(Exception e){
+            return null;
+        }finally {
+            db.close();
         }
     }
 
@@ -159,7 +211,7 @@ public final class TablaUsuarios {
                 null,                                     // no filtrar por grupos de filas
                 null                                 // El orden de clasificación (sortOrder)
         );
-        db.close();
+
         c.moveToFirst();//mueve el cursor al primer registro del resultSet
         usuario.set_id(Integer.parseInt(c.getString(0)));
         usuario.setApellidos(c.getString(1));
@@ -178,6 +230,8 @@ public final class TablaUsuarios {
 
     }catch(Exception e){
         return null;
+    }finally {
+        db.close();
     }
 }
     public EnUsuario BuscarUsuarioId(String Id){

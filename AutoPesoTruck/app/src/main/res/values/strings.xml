@@ -21,4 +21,14 @@
     <string name="err_msg_apellido">Ingrese un Apellido</string>
     <string name="err_msg_contrasena">Ingrese una contraseña</string>
     <string name="err_msg_requerido">Campo requerido</string>
+    <string name="btnAdminUser">Usuarios</string>
+    <string name="btnAdminUserText">Administración de usuarios</string>
+    <string name="btnOperacion">Operación</string>
+    <string name="btnOperacionText">Realizar Pesaje</string>
+    <string name="btnConfiguracion">Configuración</string>
+    <string name="btnConfiguracionText">Comunicación con indicador</string>
+    <string name="btnInforme">Informe</string>
+    <string name="btnInformeText">Registros de operación</string>
+    <string name="btnEnviarInfo">Enviar</string>
+    <string name="btnEnviarInfoText">Enviar Información</string>
 </resources>

@@ -26,10 +26,10 @@ public class principalActivity extends AppCompatActivity {
 
     //se declara el tool_bar
     private Toolbar toolbar;
-    GridLayout mainGrid;
     private EnUsuario usuario=new EnUsuario();
     private TablaUsuarios cdUsuariuo=new TablaUsuarios(this);
     TextView textViewUser;
+    CardView CardUser,CardConfig,CardOperacion,CardReporte,CardSend;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +42,50 @@ public class principalActivity extends AppCompatActivity {
         Bundle datos=getIntent().getExtras();
         usuario.setNombreDeUsuario(datos.getString("UserName"));
 
+        CardUser=(CardView)findViewById(R.id.CardUser);
+        CardConfig=(CardView)findViewById(R.id.CardConfig);
+        CardOperacion=(CardView)findViewById(R.id.CardOperacion);
+        CardReporte=(CardView)findViewById(R.id.CardReporte);
+        CardSend=(CardView)findViewById(R.id.CardSend);
 
 
-        mainGrid=(GridLayout)findViewById(R.id.mainGrid);
-        EnventoClickCardView(mainGrid);
+        CardUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(),UsuarioListActivity.class);
+                startActivity(i);
+            }
+        });
 
+        CardConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent i=new Intent(getApplicationContext(),UsuariosActivity.class);
+                startActivity(i);*/
+            }
+        });
+        CardOperacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(),OperacionActivity.class);
+                startActivity(i);
+            }
+        });
+
+        CardReporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent i=new Intent(getApplicationContext(),UsuariosActivity.class);
+                startActivity(i);*/
+            }
+        });
+        CardSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent i=new Intent(getApplicationContext(),UsuariosActivity.class);
+                startActivity(i);*/
+            }
+        });
 
     }
 

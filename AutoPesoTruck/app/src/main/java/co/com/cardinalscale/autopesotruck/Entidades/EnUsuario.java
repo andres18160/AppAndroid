@@ -1,6 +1,8 @@
 package co.com.cardinalscale.autopesotruck.Entidades;
 
-public class EnUsuario {
+import java.io.Serializable;
+
+public class EnUsuario  implements Serializable{
 
     private int Id;
     private String NombreDeUsuario;
@@ -8,6 +10,8 @@ public class EnUsuario {
     private String Nombres;
     private String Apellidos;
     private String Estado;
+    private int Imagen;
+
 
 
     public int get_id() {
@@ -55,5 +59,13 @@ public class EnUsuario {
 
     public void setEstado(String estado) {
         Estado = estado;
+    }
+
+    public int getImagen() {
+        return Imagen;
+    }
+
+    public void setImagen(int imagen) {
+        Imagen = imagen;
     }
 }
