@@ -2,10 +2,13 @@ package co.com.cardinalscale.autopesotruck;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Vibrator;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuAdapter;
@@ -72,20 +75,25 @@ public class UsuariosActivity extends AppCompatActivity {
         animShake= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
         vib=(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
+        Intent intent=getIntent();
+        Bundle extras=intent.getExtras();
+        if(extras!=null){
+            if(extras.containsKey("usuario")){
+                usuario=(EnUsuario)getIntent().getExtras().getSerializable("usuario");
 
-        usuario=(EnUsuario)getIntent().getExtras().getSerializable("usuario");
-
-        if(usuario!=null){
-            txtUsuario.setKeyListener(null);
-            txtUsuario.setText(usuario.getNombreDeUsuario());
-            txtApellido.setText(usuario.getApellidos());
-            txtNombre.setText(usuario.getNombres());
-            txtCalve.setText(usuario.getClave());
-            foto.setImageResource(usuario.getImagen());
-            btnActualizar.setEnabled(true);
-            btnEliminar.setEnabled(true);
-            btnGuardar.setEnabled(false);
-            btnGuardar.setVisibility(View.GONE);//Apara ocultar el boton
+                if(usuario!=null){
+                    txtUsuario.setKeyListener(null);
+                    txtUsuario.setText(usuario.getNombreDeUsuario());
+                    txtApellido.setText(usuario.getApellidos());
+                    txtNombre.setText(usuario.getNombres());
+                    txtCalve.setText(usuario.getClave());
+                    foto.setImageResource(usuario.getImagen());
+                    btnActualizar.setEnabled(true);
+                    btnEliminar.setEnabled(true);
+                    btnGuardar.setEnabled(false);
+                    btnGuardar.setVisibility(View.GONE);//Apara ocultar el boton
+                }
+            }
         }else{
             btnGuardar.setVisibility(View.VISIBLE);//Apara MOSTRAR el boton
         }
@@ -98,6 +106,7 @@ public class UsuariosActivity extends AppCompatActivity {
                         if(cdUsuario.GuardarUsuario(usuario)){
                             MensajeToast("Usuario Registrado");
                             LimpiarControles();
+                            onBackPressed();
                         }else{
                             MensajeToast("Ocurrio un error insertando el registro");
                         }
@@ -112,6 +121,7 @@ public class UsuariosActivity extends AppCompatActivity {
                     if(cdUsuario.ActualizarUsuario(usuario)){
                         MensajeToast("Usuario Actualizado");
                         LimpiarControles();
+                        onBackPressed();
                     }else{
                         MensajeToast("Ocurrio un error actualizando el registro");
                     }
@@ -124,16 +134,15 @@ public class UsuariosActivity extends AppCompatActivity {
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-         /*       if(!txtId.getText().toString().equalsIgnoreCase("")){
-                    if(cdUsuario.EliminarUsuario(txtId.getText().toString())){
+
+                    if(cdUsuario.EliminarUsuario(usuario.getNombreDeUsuario())){
                         MensajeToast("Usuario Eliminado");
                         LimpiarControles();
+                        onBackPressed();
                     }else{
                         MensajeToast("Ocurrio un error eliminando el registro");
                     }
-                }else{
-                    MensajeToast("Debes ingresar un Id para realizar la consulta!");
-                }*/
+
             }
         });
     }
@@ -225,6 +234,13 @@ public class UsuariosActivity extends AppCompatActivity {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
+
+
+    @Override
+    public void onBackPressed(){
+                finish();
+    }
+
 
 
 }

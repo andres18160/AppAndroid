@@ -26,8 +26,7 @@ public class UsuarioListActivity extends AppCompatActivity {
 
         listViewUsers=(ListView)findViewById(R.id.listViewUsuarios);
         CargarListaUsuarios();
-        UsuariosAdapter miadaptador=new UsuariosAdapter(getApplicationContext(),listaUsuarios);
-        listViewUsers.setAdapter(miadaptador);
+
 
         listViewUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -40,7 +39,22 @@ public class UsuarioListActivity extends AppCompatActivity {
         });
     }
 
+
+    public void AddUser(View view){
+        Intent i=new Intent(getApplicationContext(),UsuariosActivity.class);
+        startActivity(i);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CargarListaUsuarios();
+
+    }
     private void CargarListaUsuarios(){
         listaUsuarios=cdUsuario.GetListaUsuarios();
+        UsuariosAdapter miadaptador=new UsuariosAdapter(getApplicationContext(),listaUsuarios);
+        listViewUsers.setAdapter(miadaptador);
     }
 }

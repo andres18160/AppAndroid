@@ -119,13 +119,13 @@ public final class TablaUsuarios {
             db.close();
         }
     }
-    public boolean EliminarUsuario(String Id){
+    public boolean EliminarUsuario(String usuario){
         try{
             SQLiteDatabase db = helper.getWritableDatabase();
             // Define 'where' part of query.
-            String selection = _ID + " LIKE ?";
+            String selection = USUARIO + " LIKE ?";
             // Specify arguments in placeholder order.
-            String[] selectionArgs = { Id };
+            String[] selectionArgs = { usuario };
             // Issue SQL statement.
             db.delete(TABLE_NAME, selection,selectionArgs);
             return true;
