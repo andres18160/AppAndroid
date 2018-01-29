@@ -6,18 +6,25 @@
     android:layout_height="match_parent"
     tools:context="co.com.cardinalscale.autopesotruck.UsuarioListActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/listViewUsuarios"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/txtBuscar"
+            android:hint="@string/buscar"/>
+
+        <ListView
+            android:id="@+id/listViewUsuarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtBuscar"
             android:dividerHeight="5dp">
 
         </ListView>
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/myFAB"
