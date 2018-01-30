@@ -27,9 +27,12 @@ public final class TablaUsuarios {
     public static final String NOMBRE ="Nombre";
     public static final String APELLIDO ="Apellido";
     public static final String CLAVE ="Clave";
+    public static final String FOTO ="Foto";
     public static final String ESTADO ="Estado";
 
+
     private static final String TEXT_TYPE = " TEXT";
+    private static final String BLOB_TYPE = " BLOB";
     private static final String COMMA_SEP = ",";
 
     public static final String SQL_CREATE_USUARIOS =
@@ -39,6 +42,7 @@ public final class TablaUsuarios {
                     TablaUsuarios.NOMBRE + TEXT_TYPE +COMMA_SEP +
                     TablaUsuarios.APELLIDO + TEXT_TYPE +COMMA_SEP +
                     TablaUsuarios.CLAVE + TEXT_TYPE +COMMA_SEP +
+                    TablaUsuarios.FOTO + BLOB_TYPE +COMMA_SEP +
                     TablaUsuarios.ESTADO + TEXT_TYPE +" )";
 
     public static final String SQL_DELETE_USUARIOS ="DROP TABLE IF EXISTS " + TablaUsuarios.TABLE_NAME;
@@ -54,6 +58,7 @@ public final class TablaUsuarios {
             values.put(APELLIDO, usuario.getApellidos());
             values.put(NOMBRE, usuario.getNombres());
             values.put(CLAVE, usuario.getClave());
+            values.put(FOTO, usuario.getFoto());
             //inserta los datos y devuelve la clave primaria del registro insertado
             long newRowId = db.insert(TABLE_NAME, null, values);
             if(newRowId==-1){
@@ -147,7 +152,8 @@ public final class TablaUsuarios {
                 NOMBRE,
                 USUARIO,
                 CLAVE,
-                ESTADO
+                ESTADO,
+                FOTO
 
         };
 // Cómo desea que se clasifiquen los resultados en el Cursor resultante
@@ -170,7 +176,7 @@ public final class TablaUsuarios {
                 usuario.setNombreDeUsuario(c.getString(3));
                 usuario.setClave(c.getString(4));
                 usuario.setEstado(c.getString(5));
-                usuario.setImagen(R.drawable.logo);
+                usuario.setFoto(c.getBlob(6));
                 listaUsuarios.add(usuario);
             }
             return listaUsuarios;
@@ -192,7 +198,8 @@ public final class TablaUsuarios {
             NOMBRE,
             USUARIO,
             CLAVE,
-            ESTADO
+            ESTADO,
+            FOTO
 
     };
     // Filtrar resultados DONDE "título" = "Mi título"
@@ -219,7 +226,7 @@ public final class TablaUsuarios {
         usuario.setNombreDeUsuario(c.getString(3));
         usuario.setClave(c.getString(4));
         usuario.setEstado(c.getString(5));
-
+        usuario.setFoto(c.getBlob(6));
 
         if(usuario.getClave().equals(Clave)){
             return  usuario;
@@ -246,7 +253,8 @@ public final class TablaUsuarios {
                 NOMBRE,
                 USUARIO,
                 CLAVE,
-                ESTADO
+                ESTADO,
+                FOTO
 
         };
 
@@ -274,6 +282,7 @@ public final class TablaUsuarios {
             usuario.setNombreDeUsuario(c.getString(3));
             usuario.setClave(c.getString(4));
             usuario.setEstado(c.getString(5));
+            usuario.setFoto(c.getBlob(6));
 
             return usuario;
 
@@ -295,7 +304,8 @@ public final class TablaUsuarios {
                 NOMBRE,
                 USUARIO,
                 CLAVE,
-                ESTADO
+                ESTADO,
+                FOTO
 
         };
 
@@ -323,6 +333,7 @@ public final class TablaUsuarios {
             usuario.setNombreDeUsuario(c.getString(3));
             usuario.setClave(c.getString(4));
             usuario.setEstado(c.getString(5));
+            usuario.setFoto(c.getBlob(6));
 
             return usuario;
 
@@ -343,7 +354,8 @@ public final class TablaUsuarios {
                 NOMBRE,
                 USUARIO,
                 CLAVE,
-                ESTADO
+                ESTADO,
+                FOTO
         };
 // Filtrar resultados DONDE "título" = "Mi título"
         String selection = TablaUsuarios.ESTADO + " = ?";
@@ -368,6 +380,7 @@ public final class TablaUsuarios {
             usuario.setNombreDeUsuario(c.getString(3));
             usuario.setClave(c.getString(4));
             usuario.setEstado(c.getString(5));
+            usuario.setFoto(c.getBlob(6));
 
             return usuario;
 

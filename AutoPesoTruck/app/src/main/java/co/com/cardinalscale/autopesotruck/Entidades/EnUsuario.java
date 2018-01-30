@@ -11,6 +11,7 @@ public class EnUsuario  implements Serializable{
     private String Apellidos;
     private String Estado;
     private int Imagen;
+    private byte[] Foto;
 
 
 
@@ -61,11 +62,11 @@ public class EnUsuario  implements Serializable{
         Estado = estado;
     }
 
-    public int getImagen() {
-        return Imagen;
+    public byte[] getFoto() {
+        return Foto;
     }
 
-    public void setImagen(int imagen) {
-        Imagen = imagen;
+    public void setFoto(byte[] foto) {
+        Foto = foto;
     }
 }

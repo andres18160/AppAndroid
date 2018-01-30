@@ -9,12 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <EditText
+        <android.support.v7.widget.SearchView
+            android:id="@+id/txtBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtBuscar"
-            android:hint="@string/buscar"/>
+            android:clickable="true" />
+
 
         <ListView
             android:id="@+id/listViewUsuarios"

@@ -1,7 +1,10 @@
 package co.com.cardinalscale.autopesotruck.Adaptadores;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +27,13 @@ import co.com.cardinalscale.autopesotruck.R;
 public class UsuariosAdapter extends BaseAdapter {
 
      Context contexto;
-     List<EnUsuario> ListaObjetos;
+     List<EnUsuario> ListaObjetos,ListTemp;
+     CustomFilter cs;
 
     public UsuariosAdapter(Context contexto,List<EnUsuario> Objetos){
         this.contexto=contexto;
         ListaObjetos=Objetos;
+        ListTemp=Objetos;
     }
 
     @Override
@@ -59,48 +65,58 @@ public class UsuariosAdapter extends BaseAdapter {
         String nombreCompleto=ListaObjetos.get(position).getNombres()+" "+ListaObjetos.get(position).getApellidos();
         titulo.setText(nombreCompleto);
         descripcion.setText(ListaObjetos.get(position).getNombreDeUsuario());
-        imagen.setImageResource(ListaObjetos.get(position).getImagen());
+        Bitmap bitmap = null;
+        try{
+            ByteArrayInputStream bais = new ByteArrayInputStream(ListaObjetos.get(position).getFoto());
+            bitmap = BitmapFactory.decodeStream(bais);
+            imagen.setImageBitmap(bitmap);
+        }catch (Exception e){
+            Log.e("Error Foto",e.getMessage().toString());
+        }
+
+
         return vista;
 
     }
+    public Filter getFilter( ) {
 
-    public Filter getFilter(final UsuariosAdapter adapter ) {
+                if(cs==null){
+                    cs=new CustomFilter();
+                }
+        return cs;
+    }
 
+    class CustomFilter extends Filter
+    {
 
-        Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults result=new FilterResults();
 
-            @SuppressWarnings("unchecked")
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
+            if(constraint!=null && constraint.length()>0){
+                constraint=constraint.toString().toUpperCase();
+                ArrayList<EnUsuario> filters=new ArrayList<>();
 
-                List<String> arrayListNames = (List<String>) results.values;
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-
-                FilterResults results = new FilterResults();
-                ArrayList<String> FilteredArrayNames = new ArrayList<String>();
-
-                // perform your search here using the searchConstraint String.
-
-                constraint = constraint.toString().toLowerCase();
-                for (int i = 0; i < ListaObjetos.size(); i++) {
-                    String dataNames = ListaObjetos.get(i).getNombres();
-                    if (dataNames.toLowerCase().startsWith(constraint.toString())) {
-                        FilteredArrayNames.add(dataNames);
+                for (int i=0;i<ListTemp.size();i++){
+                    if(ListTemp.get(i).getNombreDeUsuario().toUpperCase().contains(constraint)){
+                        EnUsuario usuario=ListTemp.get(i);
+                        filters.add(usuario);
                     }
                 }
-
-                results.count = FilteredArrayNames.size();
-                results.values = FilteredArrayNames;
-                //Log.e("VALUES", results.values.toString());
-
-                return results;
+                result.count=filters.size();
+                result.values=filters;
+            }else{
+                result.count=ListTemp.size();
+                result.values=ListTemp;
             }
-        };
 
-        return filter;
+            return result;
+        }
 
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            ListaObjetos=(ArrayList<EnUsuario>) results.values;
+            notifyDataSetChanged();
+        }
     }
 }
