@@ -13,6 +13,8 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frosquivel.magicalcamera.Utilities.ConvertSimpleImage;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +69,7 @@ public class UsuariosAdapter extends BaseAdapter {
         descripcion.setText(ListaObjetos.get(position).getNombreDeUsuario());
         Bitmap bitmap = null;
         try{
-            ByteArrayInputStream bais = new ByteArrayInputStream(ListaObjetos.get(position).getFoto());
-            bitmap = BitmapFactory.decodeStream(bais);
+             bitmap = ConvertSimpleImage.bytesToBitmap (ListaObjetos.get(position).getFoto()) ;
             imagen.setImageBitmap(bitmap);
         }catch (Exception e){
             Log.e("Error Foto",e.getMessage().toString());

@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import com.frosquivel.magicalcamera.MagicalCamera;
 import com.frosquivel.magicalcamera.MagicalPermissions;
+import com.frosquivel.magicalcamera.Utilities.ConvertSimpleImage;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 import co.com.cardinalscale.autopesotruck.Datos.TablaUsuarios;
@@ -49,6 +51,7 @@ public class UsuariosActivity extends AppCompatActivity {
         private  MagicalCamera magicalCamera;
         private int RESIZE_PHOTO_PIXELS_PERCENTAGE = 80 ;
         private MagicalPermissions magicalPermissions;
+        private byte[] bytesArrayFoto;
 
 
 
@@ -104,9 +107,14 @@ public class UsuariosActivity extends AppCompatActivity {
                     txtApellido.setText(usuario.getApellidos());
                     txtNombre.setText(usuario.getNombres());
                     txtCalve.setText(usuario.getClave());
-                    ByteArrayInputStream bais = new ByteArrayInputStream(usuario.getFoto());
-                    Bitmap bitmap = BitmapFactory.decodeStream(bais);
-                    foto.setImageBitmap(bitmap);
+                    try{
+                        ByteArrayInputStream bais = new ByteArrayInputStream(usuario.getFoto());
+                        Bitmap bitmap = BitmapFactory.decodeStream(bais);
+                        foto.setImageBitmap(bitmap);
+                    }catch (Exception e){
+
+                    }
+
                     btnActualizar.setEnabled(true);
                     btnEliminar.setEnabled(true);
                     btnGuardar.setEnabled(false);
@@ -199,6 +207,8 @@ public class UsuariosActivity extends AppCompatActivity {
 
         //with this form you obtain the bitmap (in this example set this bitmap in image view)
         foto.setImageBitmap(magicalCamera.getPhoto());
+        bytesArrayFoto =  ConvertSimpleImage.bitmapToBytes(magicalCamera.getPhoto(), MagicalCamera.PNG);
+        usuario.setFoto(bytesArrayFoto);
 
         //if you need save your bitmap in device use this method and return the path if you need this
         //You need to send, the bitmap picture, the photo name, the directory name, the picture type, and autoincrement photo name if           //you need this send true, else you have the posibility or realize your standard name for your pictures.
@@ -267,6 +277,7 @@ public class UsuariosActivity extends AppCompatActivity {
           usuario.setClave(txtCalve.getText().toString());
           usuario.setNombreDeUsuario(txtUsuario.getText().toString());
           usuario.setNombres(txtNombre.getText().toString());
+          usuario.setFoto(bytesArrayFoto);
 
           return true;
       }catch (Exception e){

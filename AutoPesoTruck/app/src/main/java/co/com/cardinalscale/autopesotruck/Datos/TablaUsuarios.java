@@ -82,6 +82,7 @@ public final class TablaUsuarios {
                 values.put(APELLIDO,usuario.getApellidos());
                 values.put(NOMBRE, usuario.getNombres());
                 values.put(CLAVE, usuario.getClave());
+                values.put(FOTO, usuario.getFoto());
 
                 // Which row to update, based on the title
                 String selection = USUARIO + " LIKE ?";

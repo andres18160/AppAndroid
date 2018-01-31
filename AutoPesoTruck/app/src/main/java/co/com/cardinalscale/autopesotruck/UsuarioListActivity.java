@@ -63,6 +63,8 @@ public class UsuarioListActivity extends AppCompatActivity implements SearchView
     }
     private void CargarListaUsuarios(){
         listaUsuarios=cdUsuario.GetListaUsuarios();
+        if(listaUsuarios==null)
+            return;
          miadaptador=new UsuariosAdapter(getApplicationContext(),listaUsuarios);
         listViewUsers.setAdapter(miadaptador);
     }
