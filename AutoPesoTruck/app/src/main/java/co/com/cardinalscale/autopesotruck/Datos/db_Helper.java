@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class db_Helper extends SQLiteOpenHelper {
+public class    db_Helper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "dataBase.db";
